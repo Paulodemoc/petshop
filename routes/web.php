@@ -11,13 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-  $produtos = App\Produto::orderBy('created_at', 'desc')->get();
+Route::get('/', 'HomeController@index')->name('home');
 
-  return view('loja', [
-      'produtos' => $produtos
-  ]);
-});
+Route::get('/carrinho', 'HomeController@carrinho')->name('carrinho');
+
+Route::post('/carrinho', 'HomeController@adicionarItem')->name('carrinho');
 
 Route::post('/registrar', function (Illuminate\Http\Request $request) {
    $validator = Validator::make($request->all(), [

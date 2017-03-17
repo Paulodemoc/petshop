@@ -17,7 +17,7 @@ class CreateProdutosTable extends Migration
           $table->increments('id');
           $table->string('nome');
           $table->double('preco', 15, 8);
-          $table->string('imagem');
+          $table->binary('imagem');
           $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
           $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP(0)'));
       });

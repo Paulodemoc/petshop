@@ -20,35 +20,39 @@
   {{ Html::style('css/tether.min.css') }}
 
   <!-- JavaScript -->
-  <script src="js/jquery.min.js"></script>
-  <script src="js/tether.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.validate.min.js"></script>
-  <script src="js/additional-methods.min.js"></script>
-  <script src="js/localization/methods_pt.min.js"></script>
-  <script src="js/localization/messages_pt_BR.js"></script>
-
-  <script>
-    window.Laravel = {
-      !!json_encode([
-        'csrfToken' => csrf_token(),
-      ]) !!
-    };
-  </script>
+  {{ Html::script('js/jquery.min.js') }}
+  {{ Html::script('js/tether.min.js') }}
+  {{ Html::script('js/bootstrap.min.js') }}
+  {{ Html::script('js/jquery.validate.min.js') }}
+  {{ Html::script('js/additional-methods.min.js') }}
+  {{ Html::script('js/localization/methods_pt.min.js') }}
+  {{ Html::script('js/localization/messages_pt_BR.min.js') }}
 </head>
 
 <body>
   <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
     <a class="navbar-brand" href="#">PetShopSmart</a>
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item <?php echo (Route::currentRouteName() == "home" ? "active" : ""); ?> ">
         <a class="nav-link" href="{{ url('/') }}">Início</a>
       </li>
-
-      <li class="nav-item active">
-        <a class="nav-link" href="{{ url('/produtos/carrinho') }}">Meu Carrinho</a>
+       @if(Auth::check())
+       <li class="nav-item <?php echo (Route::currentRouteName() == "compras" ? "active" : ""); ?> ">
+         <a class="nav-link" href="{{ url('/compras') }}">Minhas Compras</a>
+       </li>
+       <li class="nav-item <?php echo (Route::currentRouteName() == "cliente" ? "active" : ""); ?> ">
+         <a class="nav-link" href="{{ url('/cliente') }}">Meus Dados</a>
+       </li>
+      <li class="nav-item <?php echo (Route::currentRouteName() == "carrinho" ? "active" : ""); ?> ">
+        <a class="nav-link" href="{{ url('/carrinho') }}">Meu Carrinho</a>
       </li>
+      @endif
     </ul>
+    @if(!Auth::check())
+    <div class="nav-item active my-2 my-lg-0">
+      <a class="btn btn-def btn-lg btn-primary" href="{{ route('login') }}">Login</a>
+    </div>
+    @endif
   </nav>
 
   <div class="container">
