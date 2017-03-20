@@ -26,4 +26,10 @@ class User extends Authenticatable
     protected $hidden = [
         'senha', 'remember_token',
     ];
+
+    // Override required, otherwise existing Authentication system will not match credentials
+    public function getAuthPassword()
+    {
+        return $this->senha;
+    }
 }

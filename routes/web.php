@@ -17,6 +17,8 @@ Route::get('/carrinho', 'HomeController@carrinho')->name('carrinho');
 
 Route::post('/carrinho', 'HomeController@adicionarItem')->name('carrinho');
 
+Route::post('/finalizarCompra', 'HomeController@finalizarCompra')->name('finalizar');
+
 Route::post('/registrar', function (Illuminate\Http\Request $request) {
    $validator = Validator::make($request->all(), [
         'nome' => 'required|max:50|min:4',
@@ -46,3 +48,8 @@ Route::post('/registrar', function (Illuminate\Http\Request $request) {
 });
 
 Auth::routes();
+
+Route::get('/logout', function(){
+  Auth::logout();
+  return redirect('/');
+})->name('logout');

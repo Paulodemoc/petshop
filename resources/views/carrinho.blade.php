@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-
+<?php $total = 0; ?>
+<h3>Meu Carrinho</h3><br/><br/>
+@if (count($produtos) > 0)
+<?php echo Form::open(array('action' => 'HomeController@finalizarCompra')); ?>
 <table style="width:70%">
   <thead>
+    <tr>
     <th colspan="2">
 	  Produto
   </th>
@@ -16,12 +20,11 @@
 	<th>
 	  Subtotal
 		</th>
-    <th></th>
+  </tr>
 </thead>
-
-@if (count($produtos) > 0)
 <tbody>
 @foreach ($produtos as $produto)
+<?php $total += ($produto->preco * $carrinho[$produto->id]['quantidade']); ?>
 <tr>
 <td>
         <img src="data:image/jpeg;base64,{{$produto->imagem}}"  width="150px" alt="{{$produto->nome}}" class="img-thumbnail"/>
@@ -34,46 +37,58 @@
     R$ {{$produto->preco}}
   </td>
     <td>
-        <select>
-          <?php for($i = 0; $i <= $carrinho[$produto->id]['quantidade']; $i++) : ?>
-            <option value="<?php echo $i; ?>"<?php echo ($i == $carrinho[$produto->id]['quantidade'] ? " selected" : ""); ?>><?php echo $i; ?></option>
-          <?php endfor; ?>
-        </select>
+        <input type="text" id="qtde_{{$produto->id}}" name="qtde_{{$produto->id}}" size="6" style="text-align:center" class="qtde" value="{{$carrinho[$produto->id]['quantidade']}}" />
       </td>
-    <td>
+    <td class="subtotal" preco="{{($produto->preco * $carrinho[$produto->id]['quantidade'])}}">
       R$ <?php echo $produto->preco * $carrinho[$produto->id]['quantidade'];  ?>
-    </td>
-    <td>
     </td>
 </tr>
 @endforeach
 </tbody>
-@endif
+<tfoot>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><strong>Total:</strong></td>
+    <td class="total"><strong>R$ {{ $total }}</strong></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><p><input type="submit" class="btn btn-primary" style="margin-top:20px" role="button" value="Fechar Compra" /></p></td>
+  </tr>
+</tfoot>
 </table>
-<div class="row cart-footer">
-  <div class="col-sm-3 col-sm-push-9 col-lg-3 col-lg-push-9 text-xs-center text-sm-left">
-    <div class="row">
-      <strong>Total: US$ 00.00<div class="clearfix hidden-xs-down"/>
-        <span class="hidden-sm-up">&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</span>S/. 00.00</strong>
-    </div>
-  </div>
-  <div class="col-sm-9 col-sm-pull-3 col-lg-9 col-lg-pull-3 ">
-    <div class="row">
-      <span class="hidden-sm-up">
-        <br>
-        </span>
-        <div class="col-xs-6 col-sm-8 text-xs-left text-sm-left">
-          <div class="row">
-            <input type="button" class="btn btn-sm myButton" value="Show more products" id="return">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-6 col-sm-4 text-xs-right">
-              <input type="button" class="btn btn-sm myButton" value="Buy" id="exec_buy">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+</form>
 
+<script type="text/javascript">
+  $('input.qtde').change(function(){
+    qtde = parseInt($(this).val());
+    if(isNaN(qtde)) { qtde = 0; $(this).val(0); }
+    preco = parseFloat($(this).parent().prev().text().replace('R$ ', ''));
+    if(isNaN(preco)) { preco = 0; }
+    $(this).parent().next().text('R$ '+(qtde * preco).toFixed(2));
+    $(this).parent().next().attr('preco',(qtde * preco).toFixed(2));
+
+    calcularTotal();
+  });
+
+  function calcularTotal(){
+    total = 0;
+    $('td.subtotal').each(function(){
+      preco = $(this).attr('preco');
+      preco = parseFloat(preco);
+      if(isNaN(preco)) preco = 0;
+      total += preco;
+    })
+    $('td.total').html('<strong>R$ '+total.toFixed(2)+'</strong>')
+  }
+</script>
+@else
+<br/><br/><br/>
+<h4>O seu carrinho está vazio.</h4>
+@endif
 @endsection

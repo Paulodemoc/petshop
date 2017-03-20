@@ -50,12 +50,20 @@
     </ul>
     @if(!Auth::check())
     <div class="nav-item active my-2 my-lg-0">
-      <a class="btn btn-def btn-lg btn-primary" href="{{ route('login') }}">Login</a>
+      <a class="btn btn-def btn-lg btn-primary" href="{{ route('login') }}">Entrar</a>
     </div>
+    @else
+    <div class="nav-item active my-2 my-lg-0">
+      <span class="nav-link" style="color:#EEE">{{Auth::user()->nome}}</span>
+    </div>
+      <div class="nav-item active my-2 my-lg-0">
+        <a class="btn btn-def btn-lg btn-primary" href="{{ route('logout') }}">Sair</a>
+      </div>
     @endif
   </nav>
 
   <div class="container">
+    @include('common.alerts')
     @yield('content')
   </div>
   <!-- /.container -->
