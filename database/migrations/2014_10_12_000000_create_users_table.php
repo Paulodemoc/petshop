@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             array(
               'nome' => 'admin',
               'email' => 'admin@admin.com',
-              'senha' => 'admin',
+              'senha' => '$2y$10$qpBEl5YzhmJUgh5zVrSoQO/ofSMF85UJfflfjvhISOWas4V.ek126', //admin1
               'tipo' => 2,
               'remember_token' => ''
             )
@@ -39,7 +39,7 @@ class CreateUsersTable extends Migration
             array(
               'nome' => 'gui',
               'email' => 'gui@gmail.com',
-              'senha' => '123',
+              'senha' => '$2y$10$ngR7mjFBNOuvciSo1uBSW.KfR2CNJxmvHb.GtytCGe/abSuzfWGqy', //123456
               'tipo' => 1,
               'remember_token' => ''
             )
@@ -49,7 +49,7 @@ class CreateUsersTable extends Migration
             array(
               'nome' => 'operador',
               'email' => 'operador@gmail.com',
-              'senha' => 'operador',
+              'senha' => '$2y$10$uOOelKISaaBjkPUUANwReO0ZqzxZoJ2Q56k9XaDrJ5oPN7O2n8WtG', //operador
               'tipo' => 3,
               'remember_token' => ''
             )
