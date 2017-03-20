@@ -19,33 +19,19 @@ Route::post('/carrinho', 'HomeController@adicionarItem')->name('carrinho');
 
 Route::post('/finalizarCompra', 'HomeController@finalizarCompra')->name('finalizar');
 
-Route::post('/registrar', function (Illuminate\Http\Request $request) {
-   $validator = Validator::make($request->all(), [
-        'nome' => 'required|max:50|min:4',
-        'email' => 'required|max:150|min:10|email',
-        'senha' => 'required|max:50|min:4',
-    ], [
-      'required' => 'O campo :attribute é obrigatório.',
-      'max' => 'O campo :attribute deve possuir no máximo :max caracteres.',
-      'min' => 'O campo :attribute deve possuir no mínimo :min caracteres.',
-      'email' => 'O campo :attribute deve ser um endereço de e-mail válido.',
-    ]);
+Route::get('/compras', 'HomeController@compras')->name('compras');
 
-    if ($validator->fails()) {
-        return redirect('/registrar')
-            ->withInput()
-            ->withErrors($validator);
-    }
+Route::get('/cliente', 'HomeController@cliente')->name('cliente');
 
-    $user = new App\User;
-    $user->nome = $request->nome;
-    $user->senha = $request->senha;
-    $user->email = $request->email;
-    $user->tipo = 1;
-    $user->save();
+Route::post('/cliente', 'HomeController@atualizarCliente')->name('atualizarCliente');
 
-    return redirect('/login');
-});
+Route::post('/editarProduto', 'HomeController@editarProduto')->name('editarProduto');
+
+Route::post('/atualizarProduto', 'HomeController@atualizarProduto')->name('atualizarProduto');
+
+Route::get('/inserirProduto', 'HomeController@inserirProduto')->name('inserirProduto');
+
+Route::delete('/removerProduto/{id}', 'HomeController@removerProduto')->name('removerProduto');
 
 Auth::routes();
 
